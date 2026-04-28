@@ -10,6 +10,25 @@ import (
 	tree_sitter_javascript "github.com/tree-sitter/tree-sitter-javascript/bindings/go"
 )
 
+func LangDetector(filePath string) (string, error) {
+	ext := filepath.Ext(filePath)
+	
+	switch ext {
+	case ".js":
+		return "javascript", nil
+	case ".ts":
+		return "typescript", nil
+	case ".py":
+		return "python", nil
+	case ".go":
+		return "go", nil
+	case ".java":
+		return "java", nil
+	default:
+		return "", fmt.Errorf("unsupported file type: %s", ext)
+	}
+}
+
 func FileWalker(dir string) ([]string, error) {
     var files []string
 
