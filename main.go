@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/fs"
 	"path/filepath"
+	"strings"
 
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
 	tree_sitter_javascript "github.com/tree-sitter/tree-sitter-javascript/bindings/go"
@@ -19,6 +20,12 @@ func FileWalker(dir string) ([]string, error) {
         if !info.IsDir() {
             files = append(files, path)
         }
+
+				// Skip hidden directories
+				if info.IsDir() && strings.HasPrefix(info.Name(), ".") {
+					return filepath.SkipDir
+				}
+
         return nil
     })
 
